@@ -37,7 +37,7 @@ VERSION=`\ls /sdcard/xposed-v* | cut -c 16-18`
 SDK=`\ls /sdcard/xposed-v* | cut -c 23-24`
 TRUE64=0
 TRUEXPOSEDBITS64=0
-BITS64=`cat /system/build.prop | grep -c "64"`
+BITS64=`cat /system/build.prop | grep -c "arm64"`
 XPOSEDBITS64=`\ls /sdcard/xposed-v* | grep -c "arm64"`
 API=$(cat /system/build.prop | grep "ro.build.version.sdk=" | dd bs=1 skip=21 count=2)
 BRAND=`\cat /system/build.prop | grep "ro.product.brand" | cut -c 18-`
