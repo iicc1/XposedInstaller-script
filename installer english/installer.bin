@@ -8,6 +8,10 @@
 # The Xposed Installer app is needed as well to manage the installed modules.
 #
 # Thanks to Chainfire for some of the functions and logic!
+#############
+#GitHub link: https://github.com/iicc1/XposedInstaller-script
+#############
+
 
 
 #Making log output
@@ -25,7 +29,7 @@ rm /test.txt
 #Checking Xposed zip
 CHECK=`ls /sdcard/xposed-v*.zip`
 if [ $? != 0 ]; then
-	echo -e "\033[31mError: No se encuentra el zip de Xposed en /sdcard\e[0m"
+	echo -e "\033[31mError: Xposed zip not found in /sdcard\e[0m"
 	echo ""
 	sleep 2
 	exit 1
@@ -64,24 +68,24 @@ echo ""
 echo ""
 echo ""
 if [ "$BRAND" == "Meizu" ]; then
- echo -e "\e[1;4mInformacion del dispositivo:\e[0m\n\e[93mMarca: \e[33m$BRAND\n\e[93mModelo: \e[33m$MODEL\n\e[93mRom: \e[33m$ROM\e[0m"
+ echo -e "\e[1;4mDevice information:\e[0m\n\e[93mBrand: \e[33m$BRAND\n\e[93mModel: \e[33m$MODEL\n\e[93mRom: \e[33m$ROM\e[0m"
 echo ""
 echo ""
 fi
-busybox echo -e "      \e[00;41m            Instalador de Xposed          \e[00;37;40m"
+busybox echo -e "      \e[00;41m             Xposed installer          \e[00;37;40m"
 busybox echo -e "      \e[31m  --------------------------------------- \e[00;37;40m"
 busybox echo -e "      \e[31m     --------------------------------    \e[00;37;40m"
-busybox echo -e "      \e[01;34m                  por iicc                \e[00;37;40m"
+busybox echo -e "      \e[01;34m                 by iicc                \e[00;37;40m"
 sleep 2.2
 sleep 0.5
 echo""
 echo ""
-echo -n "           \e[1;35m¿Seguro que deseas instalar Xposed?\e[0m
+echo -n "           \e[1;35m¿Do you really want to install Xposed?\e[0m
 
-                  \e[1;34mSelecciona una opcion:\e[0m
+                  \e[1;34mSelect an option:\e[0m
 
 
-                    \e[1;32m[ Si = 1\e[0m \e[1;33m|\e[0m \e[1;31mNo = 2 ]\e[0m
+                    \e[1;32m[ Yes = 1\e[0m \e[1;33m|\e[0m \e[1;31mNo = 2 ]\e[0m
 
 
                              "
@@ -89,7 +93,7 @@ read option
 if [ $option != 1 ]; then
   sleep 2.5
   clear
-	echo "\033[31mSaliendo...\e[0m"
+	echo "\033[31mExiting...\e[0m"
 	sleep 3
 	clear
   exit 1
@@ -100,29 +104,29 @@ fi
 
  #Displaying Xposed information
  echo ""
- echo -e "\e[104mEstas instalando Xposed $VERSION para SDK $SDK\e[0m\n\n\e[104mSi no es el correcto no llegara a instalarse\e[0m\n"
+ echo -e "\e[104mYou are installing Xposed $VERSION for SDK $SDK\e[0m\n\n\e[104mIf it is not the correct one it wont be installed\e[0m\n"
  echo ""
- echo -e "\e[44mRecuerda que:\e[0m\n \n \e[96mSDK 21 --> Android 5.0\n SDK 22 --> Android 5.1\n SDK 23 --> Android 6.0\e[0m"
+ echo -e "\e[44mRemember:\e[0m\n \n \e[96mSDK 21 --> Android 5.0\n SDK 22 --> Android 5.1\n SDK 23 --> Android 6.0\e[0m"
  echo ""
  echo ""
  sleep 3
- echo -e "\e[34mPresiona 1 para continuar:\n\n                 \e[25m"
+ echo -e "\e[34mPress 1 to continue:\n\n                 \e[25m"
  sleep 1
  read option
  if [ $option != 1 ]; then
    sleep 2.5
    clear
- 	echo -e "\e[91mSaliendo...\e[0m"
+ 	echo -e "\e[91mExiting...\e[0m"
  	sleep 3
  	clear
    exit 0
  fi
  sleep 2.5
  if [ -f /system/xbin/busybox ]; then
-	 echo "\e[92m-Busybox instalado correctamente en Xbin.\e[0m"
+	 echo "\e[92m-Busybox correctly installed in Xbin.\e[0m"
 	 sleep 1.5
  else
-	 echo -e"\e[91mError: Busybox no esta instalado.\e[0m"
+	 echo -e"\e[91mError: Busybox not installed.\e[0m"
 	 echo ""
 	 sleep 2
 	 exit 1
@@ -130,33 +134,33 @@ fi
  echo ""
  echo ""
  if [ $SDK != $API ]; then
- 	echo -e "\e[91mError\n SDK necesario: $API\n SDK que intentas poner: $SDK\e[0m"
- 	echo -e "\e[91mDescargue el zip correcto, con SDK $API!\e[0m"
+ 	echo -e "\e[91mError\n SDK needed: $API\n SDK you try to install: $SDK\e[0m"
+ 	echo -e "\e[91mDownload the correct zip, with SDK $API!\e[0m"
  	sleep 3
  	exit 0
 
  else
- echo -e "\e[92m-El SDK de Xposed es el correcto ($SDK).\e[0m"
+ echo -e "\e[92m-The Xposed SDK is the correct one ($SDK).\e[0m"
  sleep 3
  fi
 	echo ""
 	echo ""
 	if [ $TRUE64 = $TRUEXPOSEDBITS64 ]; then
 		if [ $TRUE64 = 64 ]; then
-			echo -e "\e[92m-La arquitectura del procesador es de 64 Bits\e[0m\n\e[92mAl igual que el Xposed que intenta instalar.\e[0m"
+			echo -e "\e[92m-The cpu architecture is 64 Bits\e[0m\n\e[92mThe same as the Xposed you try to install.\e[0m"
 			echo ""
 			echo ""
 			sleep 2.6
 		else
-			echo -e "\e[92mLa arquitectura del procesador es de 32 Bits\n\e[92mAl igual que el Xposed que intenta instalar.\e[0m"
+			echo -e "\e[92m-The cpu architecture is 32 Bits\e[0m\n\e[92mThe same as the Xposed you try to install.\e[0m"
 			echo ""
 			echo ""
 			sleep 2.6
 fi
 fi
 if [ $TRUE64 != $TRUEXPOSEDBITS64 ]; then
-	echo -e "\e[91mLa arquitectura del procesador y la version de Xposed son diferentes.\e[0m"
-	echo -e "\e[91mPor favor, descarge el zip correcto.\e[0m"
+	echo -e "\e[91mThe cpu architecture and the Xposed version are different.\e[0m"
+	echo -e "\e[91mPlease download the correct zip.\e[0m"
 	echo ""
 	sleep 2
 	exit 0
@@ -165,14 +169,14 @@ fi
 	echo ""
 	echo ""
 	sleep 1.2
-	echo -e "\e[96mMontando particiones...\e[0m"
+	echo -e "\e[96mMounting partitions...\e[0m"
 	echo ""
 	sleep 0.5
 	mount -o rw,remount /system
 	mount -o rw,remount /
-	echo -e "\e[96mCreando directorios...\e[0m"
+	echo -e "\e[96mCreating directories...\e[0m"
 	echo ""
-	echo -e "\e[96mDescomprimiendo archivos...\e[0m"
+	echo -e "\e[96mDecompressing files...\e[0m"
 	mkdir -p /tmp/xposed
 	sleep 1
 	unzip -o /sdcard/xposed-v* -d /tmp/xposed
@@ -245,7 +249,7 @@ if [ ! -f "/tmp/xposed/system/xposed.prop" ]; then
   echo "! Failed: /tmp/xposed/system/xposed not found!"
   exit 1
 fi
-echo -e "\e[96mComprobando Xposed...\e[0m"
+echo -e "\e[96mChecking Xposed...\e[0m"
 echo ""
 ABI=$(cat /system/build.prop /default.prop | grep -m 1 "ro.product.cpu.abi=" | dd bs=1 skip=19 count=3)
 ABILONG=$(cat /system/build.prop /default.prop | grep -m 1 "ro.product.cpu.abi=" | dd bs=1 skip=19)
@@ -287,7 +291,7 @@ else
 fi
 
 if ($XVALID); then
-  echo -e "\e[96mMoviendo archivos...\e[0m"
+  echo -e "\e[96mMoving files...\e[0m"
 	sleep 2
 
   cat /system/bin/toolbox > /system/toolbox
@@ -325,24 +329,24 @@ fi
 rm -r /tmp/xposed
 echo "\n\n"
 sleep 1.4
-echo "\e[94mFin de la instalacion"
+echo "\e[94mEnd of the instalation"
 sleep 0.9
 echo ""
-echo "Ahora ve a Xposed y haz un reinicio suave"
+echo "Now go to Xposed app and do a soft reboot"
 sleep 0.9
-echo "Al iniciar el sistema estara optimizando apps"
+echo "When the system initiates, it will be optimizing apps"
 sleep 0.9
-echo "Dependiendo de las aplicaciones instaladas,"
-echo "tardara segundos hasta una hora."
+echo "Depending on the number of installed apps,"
+echo "it will take seconds to hours"
 sleep 0.9
-echo "Si todo esta bien, Xposed estara activo."
+echo "If everything is ok, Xposed will be active."
 sleep 1.5
 echo ""
-echo "Se ha creado un Log de la instalacion"
-echo "en la ruta /sdcard"
+echo "A log of the instalation has been created"
+echo "in /sdcard"
 sleep 1.3
 echo ""
-echo "Saludos!\e[0m"
+echo "Regards!\e[0m"
 echo ""
 sleep 1
 exit 1
