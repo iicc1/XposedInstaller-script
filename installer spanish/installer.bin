@@ -10,7 +10,7 @@
 # Thanks to Chainfire for some of the functions and logic!
 #
 #############
-#GitHub link: https://github.com/iicc1/XposedInstaller-script
+#GitHub repo: https://github.com/iicc1/XposedInstaller-script
 #############
 
 
@@ -19,17 +19,17 @@ mount -o rw,remount /
 mount -o rw,remount /storage/emulated
 if [ ! -f "/test.txt" ]; then
 	> /test.txt
-	rm /sdcard/XposedInstallerLog.txt
-	sh /sdcard/installer.bin 2> /sdcard/XposedInstallerLog.txt
+	rm /storage/emulated/0/XposedInstallerLog.txt
+	sh /storage/emulated/0/installer.bin 2> /storage/emulated/0/XposedInstallerLog.txt
 	exit 1
 fi
 
 rm /test.txt
 
 #Checking Xposed zip
-CHECK=`ls /sdcard/xposed-v*.zip`
+CHECK=`ls /storage/emulated/0/xposed-v*.zip`
 if [ $? != 0 ]; then
-	echo -e "\033[31mError: No se encuentra el zip de Xposed en /sdcard\e[0m"
+	echo -e "\033[31mError: No se encuentra el zip de Xposed en /storage/emulated/0\e[0m"
 	echo ""
 	sleep 2
 	exit 1
@@ -37,12 +37,12 @@ fi
 
 
 #Getting system properties
-VERSION=`\ls /sdcard/xposed-v* | cut -c 16-18`
-SDK=`\ls /sdcard/xposed-v* | cut -c 23-24`
+VERSION=`\ls /storage/emulated/0/xposed-v* | cut -c 28-30`
+SDK=`\ls /storage/emulated/0/xposed-v* | cut -c 35-36`
 TRUE64=0
 TRUEXPOSEDBITS64=0
 BITS64=`cat /system/build.prop | grep -c "arm64"`
-XPOSEDBITS64=`\ls /sdcard/xposed-v* | grep -c "arm64"`
+XPOSEDBITS64=`\ls /storage/emulated/0/xposed-v* | grep -c "arm64"`
 API=$(cat /system/build.prop | grep "ro.build.version.sdk=" | dd bs=1 skip=21 count=2)
 BRAND=`\cat /system/build.prop | grep "ro.product.brand" | cut -c 18-`
 MODEL=`\cat /system/build.prop | grep "ro.product.model" | cut -c 18-`
@@ -179,7 +179,7 @@ fi
 	echo -e "\e[96mDescomprimiendo archivos...\e[0m"
 	mkdir -p /tmp/xposed
 	sleep 1
-	unzip -o /sdcard/xposed-v* -d /tmp/xposed
+	unzip -o /storage/emulated/0/xposed-v* -d /tmp/xposed
 	sleep 1
 	echo ""
 sleep 3
