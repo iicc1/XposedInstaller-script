@@ -26,7 +26,9 @@ fi
 
 rm /test.txt
 
-#Checking Xposed zip
+#============Checking Xposed zip============
+
+#echo "Checking Xposed zip" >> /storage/emulated/0/XposedInstallerLog.txt
 CHECK=`ls /storage/emulated/0/xposed-v*.zip`
 if [ $? != 0 ]; then
 	echo -e "\033[31mError: Xposed zip not found in /storage/emulated/0\e[0m"
@@ -35,12 +37,11 @@ if [ $? != 0 ]; then
 	exit 1
 fi
 
+#============Getting system properties============
+#echo "Getting system properties" >> /storage/emulated/0/XposedInstallerLog.txt
 
-#Getting system properties
 VERSION=`\ls /storage/emulated/0/xposed-v* | cut -c 28-30`
 SDK=`\ls /storage/emulated/0/xposed-v* | cut -c 35-36`
-TRUE64=0
-TRUEXPOSEDBITS64=0
 BITS64=`cat /system/build.prop | grep -c "arm64"`
 XPOSEDBITS64=`\ls /storage/emulated/0/xposed-v* | grep -c "arm64"`
 API=$(cat /system/build.prop | grep "ro.build.version.sdk=" | dd bs=1 skip=21 count=2)
@@ -50,15 +51,14 @@ cat /system/build.prop | grep "ro.build.display.id" > rom.txt
 cat rom.txt | cut -c22-
 ROM=`\cat /system/build.prop | grep "ro.build.display.id" | cut -c21-`
 rm -rf rom.txt
-if [ $BITS64 > 0 ]; then
+TRUE64=0
+TRUEXPOSEDBITS64=0
+if (( $BITS64 > 0 )); then
 	TRUE64=64
-else
-	TRUE64=0
 fi
-if [ $XPOSEDBITS64 = 1 ]; then
+
+if (( $XPOSEDBITS64 == 1 )); then
 	TRUEXPOSEDBITS64=64
-else
-	TRUEXPOSEDBITS64=0
 fi
 echo ""
 echo ""
@@ -67,6 +67,10 @@ echo ""
 echo ""
 echo ""
 echo ""
+
+#============Displaying some colorfull info============
+
+#echo "Displaying some colorfull info" >> /storage/emulated/0/XposedInstallerLog.txt
 if [ "$BRAND" == "Meizu" ]; then
  echo -e "\e[1;4mDevice information:\e[0m\n\e[93mBrand: \e[33m$BRAND\n\e[93mModel: \e[33m$MODEL\n\e[93mRom: \e[33m$ROM\e[0m"
 echo ""
@@ -102,7 +106,10 @@ else
 fi
 
 
- #Displaying Xposed information
+#============Xposed information============
+ 
+ #echo "Xposed information" >> /storage/emulated/0/XposedInstallerLog.txt
+ echo ""
  echo ""
  echo -e "\e[104mYou are installing Xposed $VERSION for SDK $SDK\e[0m\n\n\e[104mIf it is not the correct one it wont be installed\e[0m\n"
  echo ""
@@ -121,6 +128,11 @@ fi
  	clear
    exit 0
  fi
+ 
+ #============Some system checks============
+ #echo "Some system chechs" >> /storage/emulated/0/XposedInstallerLog.txt
+ #echo "busybox" >> /storage/emulated/0/XposedInstallerLog.txt
+ 
  sleep 2.5
  if [ -f /system/xbin/busybox ]; then
 	 echo "\e[92m-Busybox correctly installed in Xbin.\e[0m"
@@ -133,6 +145,7 @@ fi
  fi
  echo ""
  echo ""
+   #echo "api" >> /storage/emulated/0/XposedInstallerLog.txt
  if [ $SDK != $API ]; then
  	echo -e "\e[91mError\n SDK needed: $API\n SDK you try to install: $SDK\e[0m"
  	echo -e "\e[91mDownload the correct zip, with SDK $API!\e[0m"
@@ -145,6 +158,7 @@ fi
  fi
 	echo ""
 	echo ""
+	# echo "abi" >> /storage/emulated/0/XposedInstallerLog.txt
 	if [ $TRUE64 = $TRUEXPOSEDBITS64 ]; then
 		if [ $TRUE64 = 64 ]; then
 			echo -e "\e[92m-The cpu architecture is 64 Bits\e[0m\n\e[92mThe same as the Xposed you try to install.\e[0m"
@@ -165,7 +179,8 @@ if [ $TRUE64 != $TRUEXPOSEDBITS64 ]; then
 	sleep 2
 	exit 0
 fi
-
+#============Starting setup & installing============
+ #echo "setup" >> /storage/emulated/0/XposedInstallerLog.txt
 	echo ""
 	echo ""
 	sleep 1.2
@@ -176,6 +191,7 @@ fi
 	mount -o rw,remount /
 	echo -e "\e[96mCreating directories...\e[0m"
 	echo ""
+		#echo "Unzip" >> /storage/emulated/0/XposedInstallerLog.txt
 	echo -e "\e[96mDecompressing files...\e[0m"
 	mkdir -p /tmp/xposed
 	sleep 1
